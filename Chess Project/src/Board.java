@@ -5,6 +5,7 @@ public class Board extends PApplet
 {
 
     PImage whitePawnImg;
+    PImage blackPawnImg;
 
 
     Piece[][] grid = new Piece[8][8]; // master of all piece positions
@@ -25,6 +26,7 @@ public class Board extends PApplet
     {
         initalizePieces();
         whitePawnImg = loadImage("WhitePawn.png");
+        blackPawnImg = loadImage("BlackPawn.png");
     }
 
     /*
@@ -47,6 +49,15 @@ public class Board extends PApplet
         grid[6][5] = new Pawn("white", 6, 5);
         grid[6][6] = new Pawn("white", 6, 6);
         grid[6][7] = new Pawn("white", 6, 7);
+
+        grid[1][0] = new Pawn("black", 1, 0);
+        grid[1][1] = new Pawn("black", 1, 1);
+        grid[1][2] = new Pawn("black", 1, 2);
+        grid[1][3] = new Pawn("black", 1, 3);
+        grid[1][4] = new Pawn("black", 1, 4);
+        grid[1][5] = new Pawn("black", 1, 5);
+        grid[1][6] = new Pawn("black", 1, 6);
+        grid[1][7] = new Pawn("black", 1, 7);
     }
 
 
@@ -78,10 +89,15 @@ public class Board extends PApplet
         {
             for (int c = 0 ; c < 8 ; c++)
             {
-                if (grid[r][c] instanceof Pawn)
+                if (grid[r][c] instanceof Pawn && grid[r][c].color.equals("white")) // if it's a pawn AND if it's white
                 {
-                    image(whitePawnImg, c * 100, r * 100, 100, 100);
+                    image(whitePawnImg, c * 100 + 5, r * 100 + 5, 90, 90);
                 }
+                else if (grid[r][c] instanceof Pawn && grid[r][c].color.equals("black")) // if it's a pawn AND if it's black
+                {
+                    image(blackPawnImg, c * 100 + 5, r * 100 + 5, 90, 90);
+                }
+                //do the rest for rooks, queens ect.
 
             }
         }
