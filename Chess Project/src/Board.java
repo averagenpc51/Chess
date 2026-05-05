@@ -25,8 +25,8 @@ public class Board extends PApplet
     public void setup() // everything runs once
     {
         initalizePieces();
-        whitePawnImg = loadImage("WhitePawn.png");
-        blackPawnImg = loadImage("BlackPawn.png");
+        whitePawnImg = loadImage("ChessPieces/WhitePawn.png");
+        blackPawnImg = loadImage("ChessPieces/BlackPawn.png");
     }
 
     /*
