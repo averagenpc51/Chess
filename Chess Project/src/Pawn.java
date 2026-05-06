@@ -1,13 +1,19 @@
 import java.util.ArrayList;
 
+
 public class Pawn extends Piece
 {
+
+
+
 
     public Pawn(String color, int row, int col)
     {
         this.color = color;
         this.row = row;
         this.col = col;
+
+
     }
 
     @Override
@@ -16,8 +22,79 @@ public class Pawn extends Piece
     {
         ArrayList<int[]> legalMoves = new ArrayList<>();
 
-        // mihir do this
+       if(this.canMoveForward(board)){
+
+           legalMoves.add(row+getDirection(), col);
+
+       }
+
+
+
 
         return legalMoves;
     }
+
+    private int getDirection(){
+
+        if (color.equals( "white")){
+
+            return -1;
+        }
+        else return 1;
+
+
+    }
+
+
+    private boolean isFirstMove(){
+
+        if(color.equals("white")){
+
+            return row == 7;
+
+        }
+        else if(color.equals("black")){
+
+            return row == 2;
+
+        }
+
+
+        return false;
+    }
+
+
+
+    private boolean canMoveForward(Piece[][] board){
+
+        if (board[row + getDirection()][col] == null){
+
+            return true;
+
+        }
+
+    }
+
+    private boolean canMoveTwoSquares(Piece[][] board){
+
+        return isFirstMove() && board[row + 2 * getDirection()][col] == null;
+
+    }
+
+    private boolean canCaptureLeft(Piece[][] board){
+
+        return board[row + getDirection()][col - 1]!= null && !board[row + getDirection()][col - 1].color.equals(this.color);
+
+    }
+
+
+
+
+    private boolean canCaptureRight(Piece[][] board){
+
+        return board[row + getDirection()][col +1 ]!= null && !board[row + getDirection()][col + 1].color.equals(this.color);
+
+    }
+
+
 }
