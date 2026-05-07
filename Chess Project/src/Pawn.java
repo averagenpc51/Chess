@@ -2,8 +2,7 @@ import java.util.ArrayList;
 
 /* questions:
 does this check to see if a pawn can capture its own colored pawn (like white pawn takes white pawn)?
-does the returned arraylist include legal squares
-
+does the returned arraylist include blank legal squares (like blank squares it can move to)?
 */
 
 
