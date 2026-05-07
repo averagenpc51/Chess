@@ -24,9 +24,24 @@ public class Pawn extends Piece
 
        if(this.canMoveForward(board)){
 
-           legalMoves.add(row+getDirection(), col);
+           legalMoves.add(new int[]{row+getDirection(), col});
 
        }
+        if(this.canMoveTwoSquares(board)){
+
+            legalMoves.add(new int[]{row+2*getDirection(), col});
+
+        }
+        if(this.canCaptureLeft(board)){
+
+            legalMoves.add(new int[]{row + getDirection(), col-1});
+
+        }
+        if(this.canCaptureRight(board)){
+
+            legalMoves.add(new int[]{row + getDirection(), col+1});
+
+        }
 
 
 
