@@ -1,4 +1,4 @@
-/*import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class Rook extends Piece
 {
@@ -52,24 +52,79 @@ public class Rook extends Piece
 
         }
 
-        for(int c = col; c<=0; c--){
+        for(int c = col; c>=0; c--){
 
-            if (c == 0){continue;}
+
 
             if(board[row][c] !=null && !board[row][c].color.equals(this.color)){
 
                 horStart = c;
                 break;
             }
-            if(board[row][c] !=null && board[row][c].color.equals(this.color){
+            if(board[row][c] !=null && board[row][c].color.equals(this.color)){
 
                 horStart = c+1;
                 break;
 
+            }
 
 
         }
 
+        for(int c = horStart; c<=horEnd; c++){
+
+            legalMoves.add(new int[]{row,c});
+
+        }
+
+        //for Vertical MOVES
+
+        int vertEnd;
+        int vertStart;
+
+
+        for(int r = row; r<8; r++){
+
+            if (row == 7){
+                continue;
+            }
+
+            if(board[r][col] !=null && !board[r][col].color.equals(this.color)){
+
+                horEnd = r;
+                break;
+            }
+            if(board[r][col] !=null && board[r][col].color.equals(this.color){
+
+                horEnd = r-1;
+                break;
+
+            }
+
+        }
+
+        for(int r = row; r>=0; r--){
+
+
+
+            if(board[r][col] !=null && !board[r][col].color.equals(this.color)){
+
+                horStart = r;
+                break;
+            }
+            if(board[r][col] !=null && board[r][col].color.equals(this.color)){
+
+                horStart = r+1;
+                break;
+
+            }
+
+
+        }
+
+        for(int r = vertStart; r<=vertEnd; r++){
+
+            legalMoves.add(new int[]{r,col});
 
         }
 
@@ -91,4 +146,4 @@ public class Rook extends Piece
 
     }
 
-*/
+
