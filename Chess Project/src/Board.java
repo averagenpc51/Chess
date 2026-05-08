@@ -108,20 +108,31 @@ public class Board extends PApplet
         int col = mouseX / 100;
 
         Piece piece = grid[row][col]; // needed to make the getLegalMoves() call to work
-        ArrayList<int[]> moves = piece.getLegalMoves(grid);
 
-
-        for (int i = 0 ; i < moves.size(); i++) // loops through all the legal moves for that piece
+        if (piece != null)
         {
-            int[] move = moves.get(i); // get the current move
+            ArrayList<int[]> moves = piece.getLegalMoves(grid);
 
-            if (move[0] == row && move[1] == col) // compare current row and col with the legal moves list
+            for (int i = 0 ; i < moves.size(); i++) // loops through all the legal moves for that piece
             {
-                grid[row][col] = grid[selectedRow][selectedCol];
-                grid[selectedRow][selectedCol] = null; // incomplete
+                int[] move = moves.get(i); // get the current move | 0,1 is row,col
+
+                if (move[0] == row && move[1] == col) // compare current row and col with the legal moves list
+                {
+                    grid[row][col] = grid[selectedRow][selectedCol];
+                    grid[selectedRow][selectedCol] = null;
+                    grid[row][col].row = row;
+                    grid[row][col].col = col;
+                    selectedRow = -1;
+                    selectedCol = -1;
+                }
+
             }
 
         }
+
+
+
     }
 
     public void draw() // this is being constantly updated

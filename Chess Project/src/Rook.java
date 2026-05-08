@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 
 public class Rook extends Piece
 {
@@ -43,7 +43,7 @@ public class Rook extends Piece
                 horEnd = c;
                 break;
             }
-            if(board[row][c] !=null && board[row][c].color.equals(this.color){
+            if(board[row][c] !=null && board[row][c].color.equals(this.color)){
 
                 horEnd = c-1;
                 break;
@@ -94,7 +94,7 @@ public class Rook extends Piece
                 horEnd = r;
                 break;
             }
-            if(board[r][col] !=null && board[r][col].color.equals(this.color){
+            if(board[r][col] !=null && board[r][col].color.equals(this.color)){
 
                 horEnd = r-1;
                 break;
@@ -147,3 +147,4 @@ public class Rook extends Piece
     }
 
 
+*/
