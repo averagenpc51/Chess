@@ -75,12 +75,12 @@ public class Pawn extends Piece
 
         if(color.equals("white")){
 
-            return row == 7;
+            return row == 6;
 
         }
         else if(color.equals("black")){
 
-            return row == 2;
+            return row == 1;
 
         }
 
