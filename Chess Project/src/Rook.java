@@ -28,13 +28,13 @@ public class Rook extends Piece
 
         //for HOROZONTAL MOVES
 
-        int horEnd;
-        int horStart;
+        int horEnd = 6;
+        int horStart = 1;
 
 
         for(int c = col; c<8; c++){
 
-            if (col == 7){
+            if (c == col){
                 continue;
             }
 
@@ -53,6 +53,12 @@ public class Rook extends Piece
         }
 
         for(int c = col; c>=0; c--){
+
+            if(c == col){
+
+
+                continue;
+            }
 
 
 
@@ -79,24 +85,24 @@ public class Rook extends Piece
 
         //for Vertical MOVES
 
-        int vertEnd;
-        int vertStart;
+        int vertEnd = 6;
+        int vertStart = 1;
 
 
         for(int r = row; r<8; r++){
 
-            if (row == 7){
+            if (r == row){
                 continue;
             }
 
             if(board[r][col] !=null && !board[r][col].color.equals(this.color)){
 
-                horEnd = r;
+                vertEnd = r;
                 break;
             }
             if(board[r][col] !=null && board[r][col].color.equals(this.color)){
 
-                horEnd = r-1;
+                vertEnd = r-1;
                 break;
 
             }
@@ -109,12 +115,12 @@ public class Rook extends Piece
 
             if(board[r][col] !=null && !board[r][col].color.equals(this.color)){
 
-                horStart = r;
+                vertStart = r;
                 break;
             }
             if(board[r][col] !=null && board[r][col].color.equals(this.color)){
 
-                horStart = r+1;
+                vertStart = r+1;
                 break;
 
             }
@@ -125,6 +131,12 @@ public class Rook extends Piece
         for(int r = vertStart; r<=vertEnd; r++){
 
             legalMoves.add(new int[]{r,col});
+
+        }
+
+        for(int c = horEnd; c<= horEnd; c++){
+
+            legalMoves.add(new int[]{row, c});
 
         }
 
