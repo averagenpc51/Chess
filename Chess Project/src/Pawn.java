@@ -93,7 +93,7 @@ public class Pawn extends Piece
     private boolean canMoveTwoSquares(Piece[][] board){
 
         try {
-            return isFirstMove() && board[row + 2 * getDirection()][col] == null;
+            return isFirstMove() && board[row + 2 * getDirection()][col] == null &&  board[row + getDirection()][col] == null;
         }
         catch (IndexOutOfBoundsException e){
 
