@@ -1,14 +1,29 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.util.ArrayList;
+
 public class Board extends PApplet
 {
 
     PImage whitePawnImg;
+    PImage whiteRookImg;
+    PImage whiteKnightImg;
+    PImage whiteBishopImg;
+    PImage whiteQueenImg;
+    PImage whiteKingImg;
+
     PImage blackPawnImg;
+    PImage blackRookImg;
+    PImage blackKnightImg;
+    PImage blackBishopImg;
+    PImage blackQueenImg;
+    PImage blackKingImg;
 
 
     Piece[][] grid = new Piece[8][8]; // master of all piece positions
+
+    private boolean isALegalMove = false;
 
     int selectedRow = -1;
     int selectedCol = -1;
@@ -29,7 +44,18 @@ public class Board extends PApplet
     {
         initalizePieces();
         whitePawnImg = loadImage("ChessPieces/WhitePawn.png");
+        whiteRookImg = loadImage("ChessPieces/WhiteRook.png");
+        whiteKnightImg = loadImage("ChessPieces/WhiteKnight.png");
+        whiteBishopImg = loadImage("ChessPieces/WhiteBishop.png");
+        whiteQueenImg = loadImage("ChessPieces/WhiteQueen.png");
+        whiteKingImg = loadImage("ChessPieces/WhiteKing.png");
+
         blackPawnImg = loadImage("ChessPieces/BlackPawn.png");
+        blackRookImg = loadImage("ChessPieces/BlackRook.png");
+        blackKnightImg = loadImage("ChessPieces/BlackKnight.png");
+        blackBishopImg = loadImage("ChessPieces/BlackBishop.png");
+        blackQueenImg = loadImage("ChessPieces/BlackQueen.png");
+        blackKingImg = loadImage("ChessPieces/BlackKing.png");
     }
 
     /*
@@ -81,10 +107,20 @@ public class Board extends PApplet
         int row = mouseY / 100;
         int col = mouseX / 100;
 
-        if(row != selectedRow && col != selectedCol)
+        Piece piece = grid[row][col]; // needed to make the getLegalMoves() call to work
+        ArrayList<int[]> moves = piece.getLegalMoves(grid);
+
+
+        for (int i = 0 ; i < moves.size(); i++) // loops through all the legal moves for that piece
         {
-            grid[row][col] = grid[selectedRow][selectedCol];
-            grid[selectedRow][selectedCol] = null;
+            int[] move = moves.get(i); // get the current move
+
+            if (move[0] == row && move[1] == col) // compare current row and col with the legal moves list
+            {
+                grid[row][col] = grid[selectedRow][selectedCol];
+                grid[selectedRow][selectedCol] = null; // incomplete
+            }
+
         }
     }
 
@@ -92,7 +128,7 @@ public class Board extends PApplet
     {
         int squareSize = 100; // each square is 100x100 pixels;
 
-// --------------- making the blank board -----------------------------------------------
+// --------------- making the blank board ----------------------------------------------------------------------------------------------------------------------------------------------
         for (int r = 0 ; r < 8 ; r++)
         {
             for (int c = 0 ; c < 8 ; c++)
@@ -109,11 +145,12 @@ public class Board extends PApplet
                 }
             }
         }
-// ---------------------- end of blank chess board initiation ------------------------------
+// ---------------------- end of blank chess board initiation ---------------------------------------------------------------------------------------------------------------
 
 
 
-// ---------------------- looping through and placing every piece on the board -------------------------------------
+
+// ---------------------- looping through and placing every piece on the board -----------------------------------------------------------------------------------------------
         for (int r = 0 ; r < 8 ; r++)
         {
             for (int c = 0 ; c < 8 ; c++)
@@ -131,28 +168,51 @@ public class Board extends PApplet
 
             }
         }
-// --------------------- end of placing pieces loop -----------------------------------------------------------------------------------
+// --------------------- end of placing pieces loop -------------------------------------------------------------------------------------------------------------------------------
 
-// ---------------------- placing the overlay for legalMoves --------------------------------------------------------------------------
+
+
+
+// --------------------- making a square red if the attempted move is illegal (incomplete) -------------------------------------------------------------------------------------------------
+        /*if (!isALegalMove)
+        {
+            fill(235, 236, 208);
+            rect(selectedRow * 100, selectedCol * 100, squareSize, squareSize);
+        }
+         */
+// --------------------- end of illegal moves overlay --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+// ---------------------- placing the overlay for legalMoves -------------------------------------------------------------------------------------------------------------------------
         for (int r = 0 ; r < 8 ; r++)
         {
-            for (int c = 0 ; r < 8 ; c++)
+            for (int c = 0 ; c < 8 ; c++)
             {
-                Piece akljsherkj = grid[r][c];
+                Piece piece = grid[r][c]; // needed to make the getLegalMoves() call to work
 
-
-                for (int i = 0 ; i < grid.getLegalMoves().size ; i++) // loops through all of the legal moves for that piece
+                if (piece != null) // if the current square isn't blank
                 {
-                    if (i == (r*10) + c) // i dont think this is how its supossed to work
+                    ArrayList<int[]> moves = piece.getLegalMoves(grid);
+
+                    for (int i = 0 ; i < moves.size(); i++) // loops through all the legal moves for that piece
                     {
-                        fill(150, 0 , 0);
-                        ellipse(selectedCol * 100 + 50, selectedRow * 100 + 50, 50, 50);
+                        int[] move = moves.get(i); // get the current move
+
+                        if (move[0] == r && move[1] == c) // compare current row and col with the legal moves list
+                        {
+                            fill(150, 0 , 0);
+                            ellipse(selectedCol * 100 + 50, selectedRow * 100 + 50, 50, 50);
+                        }
                     }
                 }
+
+
+
             }
         }
-
-
+// --------------------------------- end of legal moves overlay --------------------------------------------------------------------------------------------------------------------------
 
 
 
