@@ -1,4 +1,4 @@
-/*import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class Rook extends Piece
 {
@@ -28,8 +28,8 @@ public class Rook extends Piece
 
         //for HOROZONTAL MOVES
 
-        int horEnd = 6;
-        int horStart = 1;
+        int horEnd = 7;
+        int horStart = 0;
 
 
         for(int c = col; c<8; c++){
@@ -79,14 +79,16 @@ public class Rook extends Piece
 
         for(int c = horStart; c<=horEnd; c++){
 
-            legalMoves.add(new int[]{row,c});
+            if(c!= col) {
 
+                legalMoves.add(new int[]{row, c});
+            }
         }
 
         //for Vertical MOVES
 
-        int vertEnd = 6;
-        int vertStart = 1;
+        int vertEnd = 7;
+        int vertStart = 0;
 
 
         for(int r = row; r<8; r++){
@@ -111,6 +113,12 @@ public class Rook extends Piece
 
         for(int r = row; r>=0; r--){
 
+            if( r == row){
+
+                continue;
+
+            }
+
 
 
             if(board[r][col] !=null && !board[r][col].color.equals(this.color)){
@@ -130,15 +138,12 @@ public class Rook extends Piece
 
         for(int r = vertStart; r<=vertEnd; r++){
 
-            legalMoves.add(new int[]{r,col});
-
+            if(r!= row) {
+                legalMoves.add(new int[]{r, col});
+            }
         }
 
-        for(int c = horEnd; c<= horEnd; c++){
 
-            legalMoves.add(new int[]{row, c});
-
-        }
 
 
 
@@ -159,4 +164,3 @@ public class Rook extends Piece
     }
 
 
-*/

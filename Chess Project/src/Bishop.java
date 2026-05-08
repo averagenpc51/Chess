@@ -1,14 +1,13 @@
 import java.util.ArrayList;
 
-public class Bishop {
 
-    public class Rook extends Piece
+    public class Bishop extends Piece
     {
 
 
 
 
-        public Rook(String color, int row, int col)
+        public Bishop(String color, int row, int col)
         {
             this.color = color;
             this.row = row;
@@ -25,6 +24,9 @@ public class Bishop {
 
 
             ArrayList<int[]> legalMoves = new ArrayList<>();
+
+
+            int upStart = 0
 
 
 
@@ -57,4 +59,4 @@ public class Bishop {
 
 
 
-}
+
