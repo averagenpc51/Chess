@@ -92,24 +92,36 @@ public class Pawn extends Piece
 
     private boolean canMoveForward(Piece[][] board){
 
-        if (board[row + getDirection()][col] == null){
-
-            return true;
-
+        try {
+            return board[row + getDirection()][col] == null;
         }
-        return false;
+        catch (IndexOutOfBoundsException e){
+
+            return false;
+        }
     }
 
     private boolean canMoveTwoSquares(Piece[][] board){
 
-        return isFirstMove() && board[row + 2 * getDirection()][col] == null;
+        try {
+            return isFirstMove() && board[row + 2 * getDirection()][col] == null;
+        }
+        catch (IndexOutOfBoundsException e){
+
+            return false;
+        }
 
     }
 
     private boolean canCaptureLeft(Piece[][] board){
 
-        return board[row + getDirection()][col - 1]!= null && !board[row + getDirection()][col - 1].color.equals(this.color);
+        try {
+            return board[row + getDirection()][col - 1] != null && !board[row + getDirection()][col - 1].color.equals(this.color);
+        }
+        catch (IndexOutOfBoundsException e){
 
+            return false;
+        }
     }
 
 
@@ -117,8 +129,13 @@ public class Pawn extends Piece
 
     private boolean canCaptureRight(Piece[][] board){
 
-        return board[row + getDirection()][col +1 ]!= null && !board[row + getDirection()][col + 1].color.equals(this.color);
+        try {
+            return board[row + getDirection()][col + 1] != null && !board[row + getDirection()][col + 1].color.equals(this.color);
+        }
+        catch (IndexOutOfBoundsException e){
 
+            return false;
+        }
     }
 
 
