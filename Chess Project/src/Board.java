@@ -25,8 +25,10 @@ public class Board extends PApplet
     int selectedRow = -1;
     int selectedCol = -1;
 
+    int lastSelectedRow = -1;
+    int lastSelectedCol = -1;
+
     String whosMove = "white";
-    boolean isALegalMove = true;
 
     public static void main(String[] args) // NOTHING GOES HERE
     {
@@ -117,15 +119,17 @@ public class Board extends PApplet
         int row = mouseY / 100;
         int col = mouseX / 100;
 
+        selectedRow = row;
+        selectedCol = col;
+
+
+
         Piece selectedPiece = grid[selectedRow][selectedCol];
-        if (selectedPiece.color.equals("white"))
+
+        if (selectedPiece == null || !selectedPiece.color.equals(whosMove))
         {
-            selectedRow = row;
-            selectedCol = col;
-        }
-        else
-        {
-            isALegalMove = false;
+            selectedRow = -1;
+            selectedCol = -1;
         }
     }
 
@@ -133,6 +137,11 @@ public class Board extends PApplet
     {
         int row = mouseY / 100;
         int col = mouseX / 100;
+
+        if (selectedRow == -1 || selectedCol == -1) // if last move was illegal do nothing
+        {
+            return;
+        }
 
         Piece selectedPiece = grid[selectedRow][selectedCol];
 
@@ -145,7 +154,7 @@ public class Board extends PApplet
             {
                 int[] move = moves.get(i);
 
-                if (move[0] == row && move[1] == col)
+                if (move[0] == row && move[1] == col) // if it is a legal move
                 {
                     grid[row][col] = grid[selectedRow][selectedCol];
                     grid[selectedRow][selectedCol] = null;
@@ -154,7 +163,17 @@ public class Board extends PApplet
                     selectedRow = -1;
                     selectedCol = -1;
 
-                    isALegalMove = true;
+                    lastSelectedRow = row;
+                    lastSelectedCol = col;
+
+                    if (whosMove.equals("white"))
+                    {
+                        whosMove = "black";
+                    }
+                    else
+                    {
+                        whosMove = "white";
+                    }
                 }
             }
         }
@@ -172,12 +191,12 @@ public class Board extends PApplet
                 if ((r + c) % 2 == 0)
                 {
                     fill(235, 236, 208);
-                    rect(r * 100, c * 100, squareSize, squareSize);
+                    rect(c * 100, r * 100, squareSize, squareSize);
                 }
                 else
                 {
                     fill(119, 149, 86);
-                    rect(r * 100, c * 100, squareSize, squareSize);
+                    rect(c * 100, r * 100, squareSize, squareSize);
                 }
             }
         }
@@ -246,12 +265,15 @@ public class Board extends PApplet
         }
 // ---------------------- end of legal moves overlay -----------------------------------
 
-//----------------------- illegal moves red square ------------------------------------------------------
-        if (isALegalMove == false);
-        {
-            
-        }
 
+
+
+//-------------------------last move overlay-----------------------------------------------
+        if (lastSelectedRow != -1)
+        {
+            fill(0, 150, 0, 100);
+            rect(lastSelectedCol * 100, lastSelectedRow * 100, squareSize, squareSize);
+        }
 
     }
 // ^^^ end of draw()
