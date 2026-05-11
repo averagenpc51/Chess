@@ -20,10 +20,7 @@ public class Board extends PApplet
     PImage blackQueenImg;
     PImage blackKingImg;
 
-
     Piece[][] grid = new Piece[8][8]; // master of all piece positions
-
-    private boolean isALegalMove = false;
 
     int selectedRow = -1;
     int selectedCol = -1;
@@ -31,14 +28,12 @@ public class Board extends PApplet
     public static void main(String[] args) // NOTHING GOES HERE
     {
         PApplet.main(new String[]{"Board"});
-
     }
 
     public void settings()
     {
         size(800, 800); // must be a square
     }
-
 
     public void setup() // everything runs once
     {
@@ -66,10 +61,9 @@ public class Board extends PApplet
     top right    (h8) : [0][7]
      */
 
-
-
     public void initalizePieces()
     {
+        // pawns
         grid[6][0] = new Pawn("white", 6, 0);
         grid[6][1] = new Pawn("white", 6, 1);
         grid[6][2] = new Pawn("white", 6, 2);
@@ -78,7 +72,6 @@ public class Board extends PApplet
         grid[6][5] = new Pawn("white", 6, 5);
         grid[6][6] = new Pawn("white", 6, 6);
         grid[6][7] = new Pawn("white", 6, 7);
-
         grid[1][0] = new Pawn("black", 1, 0);
         grid[1][1] = new Pawn("black", 1, 1);
         grid[1][2] = new Pawn("black", 1, 2);
@@ -87,6 +80,33 @@ public class Board extends PApplet
         grid[1][5] = new Pawn("black", 1, 5);
         grid[1][6] = new Pawn("black", 1, 6);
         grid[1][7] = new Pawn("black", 1, 7);
+
+        // rooks
+        grid[7][0] = new Rook("white", 7, 0);
+        grid[7][7] = new Rook("white", 7, 7);
+        grid[0][0] = new Rook("black", 0, 0);
+        grid[0][7] = new Rook("black", 0, 7);
+/*
+        // knights
+        grid[7][1] = new Knight("white", 7, 1);
+        grid[7][6] = new Knight("white", 7, 6);
+        grid[0][1] = new Knight("black", 0, 1);
+        grid[0][6] = new Knight("black", 0, 6);
+
+        // bishops
+        grid[7][2] = new Bishop("white", 7, 2);
+        grid[7][5] = new Bishop("white", 7, 5);
+        grid[0][2] = new Bishop("black", 0, 2);
+        grid[0][5] = new Bishop("black", 0, 5);
+
+        // queens
+        grid[7][3] = new Queen("white", 7, 3);
+        grid[0][3] = new Queen("black", 0, 3);
+
+        // kings
+        grid[7][4] = new King("white", 7, 4);
+        grid[0][4] = new King("black", 0, 4);
+        */
     }
 
     public void mousePressed()
@@ -96,28 +116,24 @@ public class Board extends PApplet
 
         selectedRow = row;
         selectedCol = col;
-
-        // available moves visual representation: MAYBE
-
-
     }
 
-    public void mouseReleased() // need to integrate getLegalMoves() into this later
+    public void mouseReleased()
     {
         int row = mouseY / 100;
         int col = mouseX / 100;
 
-        Piece piece = grid[row][col]; // needed to make the getLegalMoves() call to work
+        Piece selectedPiece = grid[selectedRow][selectedCol];
 
-        if (piece != null)
+        if (selectedPiece != null)
         {
-            ArrayList<int[]> moves = piece.getLegalMoves(grid);
+            ArrayList<int[]> moves = selectedPiece.getLegalMoves(grid);
 
-            for (int i = 0 ; i < moves.size(); i++) // loops through all the legal moves for that piece
+            for (int i = 0; i < moves.size(); i++)
             {
-                int[] move = moves.get(i); // get the current move | 0,1 is row,col
+                int[] move = moves.get(i);
 
-                if (move[0] == row && move[1] == col) // compare current row and col with the legal moves list
+                if (move[0] == row && move[1] == col)
                 {
                     grid[row][col] = grid[selectedRow][selectedCol];
                     grid[selectedRow][selectedCol] = null;
@@ -126,23 +142,18 @@ public class Board extends PApplet
                     selectedRow = -1;
                     selectedCol = -1;
                 }
-
             }
-
         }
-
-
-
     }
 
     public void draw() // this is being constantly updated
     {
-        int squareSize = 100; // each square is 100x100 pixels;
+        int squareSize = 100;
 
-// --------------- making the blank board ----------------------------------------------------------------------------------------------------------------------------------------------
-        for (int r = 0 ; r < 8 ; r++)
+// --------------- making the blank board -----------------------------------------------
+        for (int r = 0; r < 8; r++)
         {
-            for (int c = 0 ; c < 8 ; c++)
+            for (int c = 0; c < 8; c++)
             {
                 if ((r + c) % 2 == 0)
                 {
@@ -156,78 +167,73 @@ public class Board extends PApplet
                 }
             }
         }
-// ---------------------- end of blank chess board initiation ---------------------------------------------------------------------------------------------------------------
+// ---------------------- end of blank chess board --------------------------------------
 
 
 
 
-// ---------------------- looping through and placing every piece on the board -----------------------------------------------------------------------------------------------
-        for (int r = 0 ; r < 8 ; r++)
+// ---------------------- looping through and placing every piece on the board ----------
+        for (int r = 0; r < 8; r++)
         {
-            for (int c = 0 ; c < 8 ; c++)
+            for (int c = 0; c < 8; c++)
             {
-                if (grid[r][c] instanceof Pawn && grid[r][c].color.equals("white")) // if it's a pawn AND if it's white
-                {
-                    image(whitePawnImg, c * 100 + 5, r * 100 + 5, 90, 90); // 90 and 90 so it sits nicely in the square
-                }
+                if (grid[r][c] instanceof Pawn && grid[r][c].color.equals("white"))
+                { image(whitePawnImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                else if (grid[r][c] instanceof Pawn && grid[r][c].color.equals("black"))
+                { image(blackPawnImg, c * 100 + 5, r * 100 + 5, 90, 90); }
 
-                else if (grid[r][c] instanceof Pawn && grid[r][c].color.equals("black")) // if it's a pawn AND if it's black
-                {
-                    image(blackPawnImg, c * 100 + 5, r * 100 + 5, 90, 90);
-                }
-                //do the rest for rooks, queens ect.
+                else if (grid[r][c] instanceof Rook && grid[r][c].color.equals("white"))
+                { image(whiteRookImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                else if (grid[r][c] instanceof Rook && grid[r][c].color.equals("black"))
+                { image(blackRookImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                /*
+                else if (grid[r][c] instanceof Knight && grid[r][c].color.equals("white"))
+                { image(whiteKnightImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                else if (grid[r][c] instanceof Knight && grid[r][c].color.equals("black"))
+                { image(blackKnightImg, c * 100 + 5, r * 100 + 5, 90, 90); }
 
+                else if (grid[r][c] instanceof Bishop && grid[r][c].color.equals("white"))
+                { image(whiteBishopImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                else if (grid[r][c] instanceof Bishop && grid[r][c].color.equals("black"))
+                { image(blackBishopImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+
+                else if (grid[r][c] instanceof Queen && grid[r][c].color.equals("white"))
+                { image(whiteQueenImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                else if (grid[r][c] instanceof Queen && grid[r][c].color.equals("black"))
+                { image(blackQueenImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+
+                else if (grid[r][c] instanceof King && grid[r][c].color.equals("white"))
+                { image(whiteKingImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+
+                else if (grid[r][c] instanceof King && grid[r][c].color.equals("black"))
+                { image(blackKingImg, c * 100 + 5, r * 100 + 5, 90, 90); }
+                 */
             }
         }
-// --------------------- end of placing pieces loop -------------------------------------------------------------------------------------------------------------------------------
+// --------------------- end of placing pieces loop ------------------------------------
 
 
 
 
-// --------------------- making a square red if the attempted move is illegal (incomplete) -------------------------------------------------------------------------------------------------
-        /*if (!isALegalMove)
+// ---------------------- legal moves overlay ------------------------------------------
+        if (selectedRow != -1 && selectedCol != -1)
         {
-            fill(235, 236, 208);
-            rect(selectedRow * 100, selectedCol * 100, squareSize, squareSize);
-        }
-         */
-// --------------------- end of illegal moves overlay --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-// ---------------------- placing the overlay for legalMoves -------------------------------------------------------------------------------------------------------------------------
-        for (int r = 0 ; r < 8 ; r++)
-        {
-            for (int c = 0 ; c < 8 ; c++)
+            Piece selected = grid[selectedRow][selectedCol];
+            if (selected != null)
             {
-                Piece piece = grid[r][c]; // needed to make the getLegalMoves() call to work
-
-                if (piece != null) // if the current square isn't blank
+                ArrayList<int[]> moves = selected.getLegalMoves(grid);
+                for (int i = 0; i < moves.size(); i++)
                 {
-                    ArrayList<int[]> moves = piece.getLegalMoves(grid);
-
-                    for (int i = 0 ; i < moves.size(); i++) // loops through all the legal moves for that piece
-                    {
-                        int[] move = moves.get(i); // get the current move
-
-                        if (move[0] == r && move[1] == c) // compare current row and col with the legal moves list
-                        {
-                            fill(150, 0 , 0);
-                            ellipse(selectedCol * 100 + 50, selectedRow * 100 + 50, 50, 50);
-                        }
-                    }
+                    int[] move = moves.get(i);
+                    fill(150, 0, 0);
+                    ellipse(move[1] * 100 + 50, move[0] * 100 + 50, 50, 50);
                 }
-
-
-
             }
         }
-// --------------------------------- end of legal moves overlay --------------------------------------------------------------------------------------------------------------------------
-
+// ---------------------- end of legal moves overlay -----------------------------------
 
 
     }
 // ^^^ end of draw()
-    
+
 }

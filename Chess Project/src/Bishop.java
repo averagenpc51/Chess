@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 
 
     public class Bishop extends Piece
@@ -26,7 +26,7 @@ import java.util.ArrayList;
             ArrayList<int[]> legalMoves = new ArrayList<>();
 
 
-            int upStart = 0
+            int upStart = 0;
 
 
 
@@ -51,7 +51,7 @@ import java.util.ArrayList;
 
 
 
-
+*/
 
 
 
