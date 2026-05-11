@@ -25,6 +25,9 @@ public class Board extends PApplet
     int selectedRow = -1;
     int selectedCol = -1;
 
+    String whosMove = "white";
+    boolean isALegalMove = true;
+
     public static void main(String[] args) // NOTHING GOES HERE
     {
         PApplet.main(new String[]{"Board"});
@@ -114,8 +117,16 @@ public class Board extends PApplet
         int row = mouseY / 100;
         int col = mouseX / 100;
 
-        selectedRow = row;
-        selectedCol = col;
+        Piece selectedPiece = grid[selectedRow][selectedCol];
+        if (selectedPiece.color.equals("white"))
+        {
+            selectedRow = row;
+            selectedCol = col;
+        }
+        else
+        {
+            isALegalMove = false;
+        }
     }
 
     public void mouseReleased()
@@ -124,6 +135,7 @@ public class Board extends PApplet
         int col = mouseX / 100;
 
         Piece selectedPiece = grid[selectedRow][selectedCol];
+
 
         if (selectedPiece != null)
         {
@@ -141,6 +153,8 @@ public class Board extends PApplet
                     grid[row][col].col = col;
                     selectedRow = -1;
                     selectedCol = -1;
+
+                    isALegalMove = true;
                 }
             }
         }
@@ -225,12 +239,18 @@ public class Board extends PApplet
                 for (int i = 0; i < moves.size(); i++)
                 {
                     int[] move = moves.get(i);
-                    fill(150, 0, 0);
+                    fill(150, 0, 0, 100);
                     ellipse(move[1] * 100 + 50, move[0] * 100 + 50, 50, 50);
                 }
             }
         }
 // ---------------------- end of legal moves overlay -----------------------------------
+
+//----------------------- illegal moves red square ------------------------------------------------------
+        if (isALegalMove == false);
+        {
+            
+        }
 
 
     }
